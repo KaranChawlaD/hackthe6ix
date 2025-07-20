@@ -8,7 +8,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Coach.ai",
+  title: "coach.ai",
   description: "Your Personalized AI Sports Coaching App",
   icons: {
     icon:"/logo.png"

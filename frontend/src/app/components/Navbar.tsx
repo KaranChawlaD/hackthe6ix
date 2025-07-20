@@ -28,7 +28,7 @@ export default function Navbar() {
 
           <div className="hidden md:flex space-x-8 text-lg text-background">
             <Link href="/upload" className="hover:underline p-3">
-              Create New Insights
+              Create New Insight
             </Link>
             <Link href="/gallery" className="hover:underline p-3">
               Gallery

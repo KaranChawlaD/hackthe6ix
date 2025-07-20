@@ -2,6 +2,7 @@ from fastapi import FastAPI, File, UploadFile, Response, status
 from fastapi.middleware.cors import CORSMiddleware
 from twelvelabs import TwelveLabs
 from pathlib import Path
+from google import genai
 from dotenv import load_dotenv
 import requests
 import os
@@ -10,6 +11,8 @@ import shutil
 app = FastAPI()
 
 load_dotenv()
+
+gem_client = genai.Client()
 
 # Enable CORS for frontend
 app.add_middleware(
@@ -56,11 +59,14 @@ async def analyze(file: UploadFile = File(...)):
 
     # Step 4: Generate text using prompt
     text_stream = client.analyze_stream(video_id=task.video_id, 
-                                        prompt=Path('prompt.txt').read_text())
+                                        prompt=Path('prompt_test.txt').read_text())
     for text in text_stream:
         print(text)
 
     summary = text_stream.aggregated_text
     os.remove(temp_file_path)
 
-    return {"summary": summary}
+    gem_response = gem_client.models.generate_content(model = "gemini-2.5-flash", contents=f"{Path('gemini_prompt_test.txt').read_text()} + {summary}")
+    print(gem_response.text)
+
+    return {"summary": gem_response.text}
